@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://4e6o3u7jprkl" path="res://scripts/player_input.gd" id="2_22uif"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_x4b8f"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath(".:player")
 properties/0/spawn = true
 properties/0/replication_mode = 2
-properties/1/path = NodePath(".:player")
+properties/1/path = NodePath(".:expected_position")
 properties/1/spawn = true
 properties/1/replication_mode = 2
 properties/2/path = NodePath(".:velocity")

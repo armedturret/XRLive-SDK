@@ -4,8 +4,12 @@ extends CharacterBody3D
 class_name TestPlayer
 
 const SPEED = 5.0
+const RUBBER_BAND_DIST = 1.0
 
 @export var input: PlayerInput
+
+@export_category("Synched Properties")
+@export var expected_position: Vector3
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -31,3 +35,8 @@ func _physics_process(_delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+	if multiplayer.is_server():
+		expected_position = position
+	elif (expected_position - position).length_squared() > RUBBER_BAND_DIST * RUBBER_BAND_DIST:
+		position = expected_position
