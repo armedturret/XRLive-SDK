@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://mt0ycsa0yltu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3p835"]
+size = Vector2(6, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3p835"]
+size = Vector3(6, 0.012, 6)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3p835"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3p835"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:linear_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:angular_velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="TestLevel" type="Node3D" unique_id=1490706074]
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=489133613]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=582169573]
+mesh = SubResource("PlaneMesh_3p835")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1650015541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00579834, 0)
+shape = SubResource("BoxShape3D_3p835")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1162218573]
+transform = Transform3D(1, 0, 0, 0, 0.8224321, 0.56886333, 0, -0.56886333, 0.8224321, 0, 2.0318282, 2.8515635)
+
+[node name="Sphere" type="RigidBody3D" parent="." unique_id=1836819681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4427636, 0)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Sphere" unique_id=1977764443]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sphere" unique_id=1456287575]
+shape = SubResource("SphereShape3D_3p835")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Sphere" unique_id=738906483]
+replication_config = SubResource("SceneReplicationConfig_3p835")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1602302696]
+transform = Transform3D(0.78888035, 0.5545839, -0.2647725, 0, 0.43084186, 0.90242743, 0.61454684, -0.71190727, 0.33988267, 0, 0, 0)

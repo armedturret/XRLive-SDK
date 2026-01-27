@@ -14,6 +14,7 @@ config/name="XRLive SDK"
 config/description="An open-source SDK developed by the XRLive team at RIT!
 https://www.cs.rit.edu/~jmg/XRLive/
 "
+run/main_scene="uid://dh74olmenlf6j"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="uid://vvbfl1nj7ti1"
 
