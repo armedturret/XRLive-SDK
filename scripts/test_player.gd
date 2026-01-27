@@ -4,7 +4,7 @@ extends CharacterBody3D
 class_name TestPlayer
 
 const SPEED = 5.0
-const RUBBER_BAND_DIST = 1.0
+const RUBBER_BAND_DIST = 0.75
 
 @export var input: PlayerInput
 
