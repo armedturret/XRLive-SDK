@@ -2,13 +2,16 @@ extends Node
 
 class_name NetworkManager
 
-# this should probably be seperated into its own gui node
-# we'll want to decouple ui/business logic for people to add to their owns scenes
+# TODO: this should probably be seperated into its own gui node
+# we'll want to decouple ui/business logic for people to add to their ui
 @export var net_ui: Control
 @export var host_button: Button
 @export var connect_button: Button
 @export var address_input: LineEdit
 @export var port_input: LineEdit
+
+# TODO: these should be spawned automatically and abstracted out
+@export var levelRoot: Node
 
 func _ready() -> void:
 	get_tree().paused = true
@@ -16,7 +19,6 @@ func _ready() -> void:
 	multiplayer.server_relay = false
 	host_button.pressed.connect(_on_host_pressed)
 	connect_button.pressed.connect(_on_connect_pressed)
-
 
 func _on_host_pressed() -> void:
 	# TODO: Move OS alerts into an in-game error box
@@ -55,3 +57,23 @@ func _on_connect_pressed() -> void:
 func start_game() -> void:
 	net_ui.hide()
 	get_tree().paused = false
+	if multiplayer.is_server():
+		change_level.call_deferred(load("res://scenes/test_level.tscn"))
+
+
+func change_level(scene: PackedScene) -> void:
+	if not multiplayer.is_server():
+		OS.alert("Need to be server to change scenes.")
+		return
+	for c: Node in levelRoot.get_children():
+		levelRoot.remove_child(c)
+		c.queue_free()
+	levelRoot.add_child(scene.instantiate())
+
+
+# TODO: remove ALL this, should be 0 input logic in the net man
+func _input(event: InputEvent) -> void:
+	if not multiplayer.is_server():
+		return
+	if event.is_action("ui_accept") and Input.is_action_just_pressed("ui_accept"):
+		change_level.call_deferred(load("res://scenes/test_level.tscn"))

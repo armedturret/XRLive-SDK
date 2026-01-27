@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://dh74olmenlf6j"]
 
-[ext_resource type="PackedScene" uid="uid://mt0ycsa0yltu" path="res://scenes/test_level.tscn" id="1_4k8ny"]
 [ext_resource type="Script" uid="uid://dj4bcgmr2cbey" path="res://scripts/network_manager.gd" id="2_6jr63"]
 
 [node name="MultiplayerTest" type="Node" unique_id=1371119805]
 process_mode = 3
 
-[node name="Level" type="Node" parent="." unique_id=1742559758]
+[node name="LevelRoot" type="Node" parent="." unique_id=1742559758]
 process_mode = 1
 
-[node name="TestLevel" parent="Level" unique_id=1490706074 instance=ExtResource("1_4k8ny")]
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1450111877]
+_spawnable_scenes = PackedStringArray("uid://mt0ycsa0yltu")
+spawn_path = NodePath("../LevelRoot")
 
 [node name="UI" type="Control" parent="." unique_id=526357457]
 layout_mode = 3
@@ -55,11 +56,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "3700"
 
-[node name="NetworkManager" type="Node" parent="." unique_id=1498311489 node_paths=PackedStringArray("net_ui", "host_button", "connect_button", "address_input", "port_input")]
+[node name="NetworkManager" type="Node" parent="." unique_id=1498311489 node_paths=PackedStringArray("net_ui", "host_button", "connect_button", "address_input", "port_input", "levelRoot")]
 script = ExtResource("2_6jr63")
 net_ui = NodePath("../UI")
 host_button = NodePath("../UI/NetOptions/Host")
 connect_button = NodePath("../UI/NetOptions/Connect")
 address_input = NodePath("../UI/NetOptions/Address/AddressInput")
 port_input = NodePath("../UI/NetOptions/Port/PortInput")
+levelRoot = NodePath("../LevelRoot")
 metadata/_custom_type_script = "uid://dj4bcgmr2cbey"
