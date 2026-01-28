@@ -1,23 +1,22 @@
 [gd_scene format=3 uid="uid://dh74olmenlf6j"]
 
-[ext_resource type="Script" uid="uid://dj4bcgmr2cbey" path="res://scripts/test_network_manager.gd" id="2_6jr63"]
+[ext_resource type="Script" uid="uid://barbh43l8vyym" path="res://scripts/test_xrliveui.gd" id="1_ntqd0"]
 [ext_resource type="Script" uid="uid://bn0f3uwv3aotq" path="res://addons/xrlive_sdk/xrlive_initializer.gd" id="2_ntqd0"]
 
 [node name="MultiplayerTest" type="Node" unique_id=1371119805]
 process_mode = 3
 
-[node name="LevelRoot" type="Node" parent="." unique_id=1742559758]
-process_mode = 1
-
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1450111877]
-_spawnable_scenes = PackedStringArray("uid://mt0ycsa0yltu")
-spawn_path = NodePath("../LevelRoot")
-
-[node name="UI" type="Control" parent="." unique_id=526357457]
+[node name="UI" type="Control" parent="." unique_id=526357457 node_paths=PackedStringArray("connect_button", "options_root", "address_input", "error_text", "connecting_text")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_ntqd0")
+connect_button = NodePath("NetOptions/Connect")
+options_root = NodePath("NetOptions")
+address_input = NodePath("NetOptions/Address/AddressInput")
+error_text = NodePath("NetOptions/Error")
+connecting_text = NodePath("ConnectingText")
 
 [node name="NetOptions" type="VBoxContainer" parent="UI" unique_id=212462471]
 custom_minimum_size = Vector2(400, 0)
@@ -41,14 +40,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "127.0.0.1"
 
-[node name="NetworkManager" type="Node" parent="." unique_id=1498311489 node_paths=PackedStringArray("net_ui", "host_button", "connect_button", "address_input", "levelRoot")]
-script = ExtResource("2_6jr63")
-net_ui = NodePath("../UI")
-host_button = NodePath("")
-connect_button = NodePath("../UI/NetOptions/Connect")
-address_input = NodePath("../UI/NetOptions/Address/AddressInput")
-levelRoot = NodePath("../LevelRoot")
-metadata/_custom_type_script = "uid://dj4bcgmr2cbey"
+[node name="Error" type="Label" parent="UI/NetOptions" unique_id=272934839]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="ConnectingText" type="Label" parent="UI" unique_id=1414551804]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Connecting..."
 
 [node name="XRLiveInitializer" type="Node" parent="." unique_id=425647733]
 script = ExtResource("2_ntqd0")

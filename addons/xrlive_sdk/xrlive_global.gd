@@ -1,9 +1,36 @@
 extends Node
 
+# These signals are all client only
+signal disconnected_from_server
+signal connected_to_server
+signal failed_to_connect(reason: String)
+
 var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 
 var _level_root: Node
 var _levels: Array[String]
+
+func _ready() -> void:
+	# Should NOT be able to pause a network manager
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Client only
+	multiplayer.server_disconnected.connect(_on_disconnected_from_server)
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.connection_failed.connect(_on_connection_failure)
+
+
+func _on_disconnected_from_server() -> void:
+	disconnected_from_server.emit()
+
+
+func _on_connected_to_server() -> void:
+	connected_to_server.emit()
+
+
+func _on_connection_failure() -> void:
+	failed_to_connect.emit("Failed to establish connection.")
+
 
 # Init with the list of levels
 func init(levels: Array[String], default_scene_index: int) -> void:
@@ -19,6 +46,7 @@ func init(levels: Array[String], default_scene_index: int) -> void:
 	for path: String in levels:
 		level_spawner.add_spawnable_scene(path)
 	get_tree().root.add_child(level_spawner)
+	level_spawner.spawn_path = _level_root.get_path()
 	multiplayer.server_relay = false
 
 	_levels = levels
@@ -40,6 +68,7 @@ func change_level(scene_path: String) -> void:
 		_level_root.remove_child(c)
 		c.queue_free()
 	_level_root.add_child(level.instantiate())
+	print("Level should be added!")
 
 
 func start_server(default_scene_index: int) -> void:
@@ -50,8 +79,23 @@ func start_server(default_scene_index: int) -> void:
 		push_error("Failed to start multiplayer server.")
 		return
 	multiplayer.multiplayer_peer = peer
-	change_level(_levels[default_scene_index])
+	change_level.call_deferred(_levels[default_scene_index])
 
 
 func start_client(address: String) -> void:
-	pass
+	if address == "":
+		push_error("Need to specify an adrdess.")
+		return
+
+	var peer := ENetMultiplayerPeer.new()
+	peer.create_client(address, 3700)
+
+	# reduce the timeout since the default is crazy long
+	var packet_peer := peer.get_peer(1)
+	packet_peer.set_timeout(0, 0, _constants.XRLIVE_TIMEOUT_SECONDS * 1000)
+
+
+	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		push_error("Failed to start multiplayer client.")
+		return
+	multiplayer.multiplayer_peer = peer
