@@ -25,6 +25,7 @@ func _on_disconnected_from_server() -> void:
 
 
 func _on_connected_to_server() -> void:
+	print("Connected to server!")
 	connected_to_server.emit()
 
 
@@ -68,13 +69,12 @@ func change_level(scene_path: String) -> void:
 		_level_root.remove_child(c)
 		c.queue_free()
 	_level_root.add_child(level.instantiate())
-	print("Level should be added!")
 
 
 func start_server(default_scene_index: int) -> void:
 	print("Server started!")
 	var peer := ENetMultiplayerPeer.new()
-	peer.create_server(_constants.XRLIVE_PORT)
+	peer.create_server(_constants.XRLIVE_PORT, _constants.XRLIVE_MAX_CLIENTS)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		push_error("Failed to start multiplayer server.")
 		return
@@ -88,7 +88,7 @@ func start_client(address: String) -> void:
 		return
 
 	var peer := ENetMultiplayerPeer.new()
-	peer.create_client(address, 3700)
+	peer.create_client(address, _constants.XRLIVE_PORT)
 
 	# reduce the timeout since the default is crazy long
 	var packet_peer := peer.get_peer(1)
