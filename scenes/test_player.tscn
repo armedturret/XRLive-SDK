@@ -24,6 +24,10 @@ properties/0/replication_mode = 2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_88ety"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1232758580 node_paths=PackedStringArray("input")]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 script = ExtResource("1_0ax77")
 input = NodePath("PlayerInput")
 metadata/_custom_type_script = "uid://rm20vdnp6g6w"

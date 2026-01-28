@@ -38,5 +38,7 @@ func _physics_process(_delta: float) -> void:
 
 	if multiplayer.is_server():
 		expected_position = position
+	elif multiplayer.multiplayer_peer.get_unique_id() != player:
+		position = expected_position
 	elif (expected_position - position).length_squared() > RUBBER_BAND_DIST * RUBBER_BAND_DIST:
 		position = expected_position
