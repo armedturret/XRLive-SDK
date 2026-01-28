@@ -18,9 +18,17 @@ run/main_scene="uid://dh74olmenlf6j"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="uid://vvbfl1nj7ti1"
 
+[autoload]
+
+XRLiveGlobal="*uid://qatviv0drby2"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=2
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/xr_live_sdk/plugin.cfg", "res://addons/xrlive_sdk/plugin.cfg")
 
 [physics]
 
