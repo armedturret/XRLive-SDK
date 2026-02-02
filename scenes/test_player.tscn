@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://stic3ukapsax"]
+
+[ext_resource type="Script" uid="uid://rm20vdnp6g6w" path="res://scripts/test_player.gd" id="1_0ax77"]
+[ext_resource type="Script" uid="uid://4e6o3u7jprkl" path="res://scripts/player_input.gd" id="2_22uif"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_x4b8f"]
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:expected_position")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tmr53"]
+properties/0/path = NodePath("PlayerInput:direction")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qcd3b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_88ety"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1232758580 node_paths=PackedStringArray("input")]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = ExtResource("1_0ax77")
+input = NodePath("PlayerInput")
+metadata/_custom_type_script = "uid://rm20vdnp6g6w"
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=609127322]
+replication_config = SubResource("SceneReplicationConfig_x4b8f")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="." unique_id=1841223860]
+replication_config = SubResource("SceneReplicationConfig_tmr53")
+script = ExtResource("2_22uif")
+metadata/_custom_type_script = "uid://4e6o3u7jprkl"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1165958038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_qcd3b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1863884087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_88ety")

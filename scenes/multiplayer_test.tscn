@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://dh74olmenlf6j"]
+
+[ext_resource type="Script" uid="uid://barbh43l8vyym" path="res://scripts/test_xrliveui.gd" id="1_ntqd0"]
+[ext_resource type="Script" uid="uid://bn0f3uwv3aotq" path="res://addons/xrlive_sdk/xrlive_initializer.gd" id="2_ntqd0"]
+
+[node name="MultiplayerTest" type="Node" unique_id=1371119805]
+process_mode = 3
+
+[node name="UI" type="Control" parent="." unique_id=526357457 node_paths=PackedStringArray("connect_button", "options_root", "address_input", "error_text", "connecting_text")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ntqd0")
+connect_button = NodePath("NetOptions/Connect")
+options_root = NodePath("NetOptions")
+address_input = NodePath("NetOptions/Address/AddressInput")
+error_text = NodePath("NetOptions/Error")
+connecting_text = NodePath("ConnectingText")
+
+[node name="NetOptions" type="VBoxContainer" parent="UI" unique_id=212462471]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Connect" type="Button" parent="UI/NetOptions" unique_id=973593839]
+layout_mode = 2
+text = "Connect"
+
+[node name="Address" type="HBoxContainer" parent="UI/NetOptions" unique_id=310285447]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/NetOptions/Address" unique_id=473144640]
+layout_mode = 2
+text = "Server Address: "
+
+[node name="AddressInput" type="LineEdit" parent="UI/NetOptions/Address" unique_id=174699105]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+
+[node name="Error" type="Label" parent="UI/NetOptions" unique_id=272934839]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="ConnectingText" type="Label" parent="UI" unique_id=1414551804]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Connecting..."
+
+[node name="XRLiveInitializer" type="Node" parent="." unique_id=425647733]
+script = ExtResource("2_ntqd0")
+levels = Array[String](["res://scenes/test_level.tscn"])
+metadata/_custom_type_script = "uid://bn0f3uwv3aotq"
