@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://bsi5kxyaypj1y"]
+
+[ext_resource type="Script" uid="uid://cwf4im1yuro8w" path="res://node_3d.gd" id="1_a202f"]
+[ext_resource type="ArrayMesh" uid="uid://dhnels2v7pnqx" path="res://newell_teaset/teacup.obj" id="2_r3fl7"]
+[ext_resource type="ArrayMesh" uid="uid://chii8qittyugm" path="res://newell_teaset/spoon.obj" id="3_jka67"]
+[ext_resource type="ArrayMesh" uid="uid://brtj24pcxs3d8" path="res://newell_teaset/teapot.obj" id="4_i5arm"]
+
+[sub_resource type="Animation" id="Animation_wc5p8"]
+resource_name = "SteamDance"
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/MeshInstance3D")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, -1.542, 0, -2.826, 0.5, 1, -1.542, 1.5, -2.826, 1, 1, 0, 2, -2.826, 1.5, 1, 1.542, 1.5, -2.826, 2, 1, 1.542, 0, -2.826)
+
+[sub_resource type="Animation" id="Animation_jsk3o"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/MeshInstance3D")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 1.542, 0, -2.826)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4arys"]
+_data = {
+&"RESET": SubResource("Animation_jsk3o"),
+&"SteamDance": SubResource("Animation_wc5p8")
+}
+
+[sub_resource type="SphereMesh" id="SphereMesh_6iypd"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_a202f")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0509913, 2.7122974)
+
+[node name="Teacup" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.542, 0, -2.826)
+mesh = ExtResource("2_r3fl7")
+
+[node name="Teacup2" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.542, 0, -2.826)
+mesh = ExtResource("2_r3fl7")
+
+[node name="Spoon" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0853457, 0.12479329, -3.076355)
+mesh = ExtResource("3_jka67")
+skeleton = NodePath("../..")
+
+[node name="Spoon2" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.085, 0.125, -3.076)
+mesh = ExtResource("3_jka67")
+skeleton = NodePath("../..")
+
+[node name="Teapot" type="MeshInstance3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.070332944, 0, -7.441232)
+mesh = ExtResource("4_i5arm")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_4arys")
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.542, 0, -2.826)
+mesh = SubResource("SphereMesh_6iypd")
