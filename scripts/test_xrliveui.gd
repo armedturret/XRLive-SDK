@@ -3,6 +3,7 @@ extends Control
 @export var connect_button: Button
 @export var options_root: Control
 @export var address_input: LineEdit
+@export var port_input: LineEdit
 @export var error_text: Label
 @export var connecting_text: Control
 
@@ -12,6 +13,7 @@ func _ready() -> void:
 	options_root.show()
 
 	connect_button.pressed.connect(_on_connect_pressed)
+	XRLiveGlobal.connection_started.connect(_on_connection_started)
 	XRLiveGlobal.connected_to_server.connect(_on_connected)
 	XRLiveGlobal.disconnected_from_server.connect(_on_disconnected)
 	XRLiveGlobal.failed_to_connect.connect(_on_connection_failed)
@@ -21,9 +23,12 @@ func _on_connect_pressed() -> void:
 	if address_input.text == "":
 		_show_error("Address cannot be empty!")
 		return
+	XRLiveGlobal.start_client(address_input.text, port_input.text.to_int())
+
+
+func _on_connection_started() -> void:
 	options_root.hide()
 	connecting_text.show()
-	XRLiveGlobal.start_client(address_input.text)
 
 
 func _on_connected() -> void:

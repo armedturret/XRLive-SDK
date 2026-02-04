@@ -40,6 +40,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "127.0.0.1"
 
+[node name="Port" type="HBoxContainer" parent="UI/NetOptions" unique_id=864024767]
+layout_mode = 2
+
+[node name="Port" type="Label" parent="UI/NetOptions/Port" unique_id=1970964072]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortInput" type="LineEdit" parent="UI/NetOptions/Port" unique_id=120187705]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3700"
+
 [node name="Error" type="Label" parent="UI/NetOptions" unique_id=272934839]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
