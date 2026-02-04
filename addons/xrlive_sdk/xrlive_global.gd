@@ -26,6 +26,7 @@ func _ready() -> void:
 
 	settings = XRLiveSettings.new()
 	settings.port = _constants.XRLIVE_DEFAULT_PORT
+	_parse_launch_file()
 	_parse_launch_arguments()
 
 
@@ -124,12 +125,34 @@ func start_client(address: String, port: int) -> void:
 	multiplayer.multiplayer_peer = peer
 
 
+func _parse_launch_file() -> void:
+	# reads the config file located in the executable directory (if there is one)
+	# just passes them as if passed via command line
+	if OS.has_feature("editor"):
+		return
+
+	var path : String = OS.get_executable_path().get_base_dir()
+	path += _constants.XRLIVE_ARG_FILE_PATH
+
+	if FileAccess.file_exists(path):
+		print("Found %s! Parsing..." % path)
+		var file := FileAccess.open(path, FileAccess.READ)
+		var contents := file.get_as_text()
+		var args := contents.strip_edges().split(" ", false)
+		_parse_args(args)
+
+
 func _parse_launch_arguments() -> void:
+	# command line args take higher precendence than config file
+	var args := OS.get_cmdline_args()
+	_parse_args(args)
+
+
+func _parse_args(args: PackedStringArray) -> void:
 	# options:
 	# --port [PORT] - set client/server port
 	# --address [ADDRESS] - connects client to address (if not headless)
-	var args := OS.get_cmdline_args()
-	var should_quit: bool
+	var should_quit: bool = false
 
 	for i : int in range(len(args)):
 		if args[i] == "--port":
