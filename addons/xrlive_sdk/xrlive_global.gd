@@ -15,6 +15,8 @@ var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 var _level_root: Node
 var _levels: Array[String]
 
+var _input_thread: Thread
+
 func _ready() -> void:
 	# Should NOT be able to pause a network manager
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -28,6 +30,18 @@ func _ready() -> void:
 	settings.port = _constants.XRLIVE_DEFAULT_PORT
 	_parse_launch_file()
 	_parse_launch_arguments()
+
+
+func _enter_tree() -> void:
+	if DisplayServer.get_name() == "headless":
+		print("Type 'quit' to quit!")
+		_input_thread = Thread.new()
+		_input_thread.start(_async_read_input)
+
+
+func _exit_tree() -> void:
+	if _input_thread:
+		_input_thread.wait_to_finish()
 
 
 func _on_disconnected_from_server() -> void:
@@ -95,6 +109,7 @@ func start_server(default_scene_index: int) -> void:
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		push_error("Failed to start multiplayer server.")
 		get_tree().quit(1)
+		return
 	multiplayer.multiplayer_peer = peer
 	change_level.call_deferred(_levels[default_scene_index])
 	print("Server started!")
@@ -176,3 +191,17 @@ func _parse_args(args: PackedStringArray) -> void:
 
 	if should_quit:
 		get_tree().quit(1)
+
+
+# This function is blocking, only called in thread
+func _async_read_input() -> void:
+	var input : String = ""
+	while input != "quit":
+		input = OS.read_string_from_stdin().strip_edges().to_lower()
+		match input:
+			"stats":
+				print("Uptime (ms): %s" %
+					Time.get_ticks_msec())
+			_:
+				print("String \'%s\' unrecognized command" % input)
+	get_tree().quit()
