@@ -199,6 +199,8 @@ func _async_read_input() -> void:
 	while input != "quit":
 		input = OS.read_string_from_stdin().strip_edges().to_lower()
 		match input:
+			"quit":
+				pass
 			"stats":
 				print("Uptime (ms): %s" %
 					Time.get_ticks_msec())
