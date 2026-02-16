@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [gd_scene load_steps=24 format=3 uid="uid://bsi5kxyaypj1y"]
 
 [ext_resource type="Script" uid="uid://dmwdpfwh7uxw" path="res://start_vr.gd" id="1_ou2qu"]
@@ -197,3 +198,8 @@ autoplay = "SteamDance"
 [node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationPlayer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.542, 0, -2.826)
 mesh = SubResource("SphereMesh_6iypd")
+=======
+[gd_scene format=3 uid="uid://cekjh0m4vedik"]
+
+[node name="Node3D" type="Node3D"]
+>>>>>>> 0f3a0247764f7df44e1c3a3c787e76501e841279

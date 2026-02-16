@@ -8,25 +8,35 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
-config/name="XRLive SDK"
-config/description="An open-source SDK developed by the XRLive team at RIT!
-https://www.cs.rit.edu/~jmg/XRLive/
-"
-config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="uid://vvbfl1nj7ti1"
-
-[debug]
-
-gdscript/warnings/untyped_declaration=2
-
-[physics]
-
-3d/physics_engine="Jolt Physics"
+config/name="VIP AR"
+run/main_scene="uid://bsi5kxyaypj1y"
+config/features=PackedStringArray("4.6", "Mobile")
+config/icon="res://icon.svg"
 
 [rendering]
 
-rendering_device/driver.windows="d3d12"
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+
+[xr]
+
+openxr/enabled=true
+openxr/environment_blend_mode=2
+openxr/extensions/hand_tracking=true
+openxr/extensions/hand_interaction_profile=true
+openxr/extensions/spatial_entity/enabled=true
+openxr/extensions/spatial_entity/enable_spatial_anchors=true
+openxr/extensions/spatial_entity/enable_persistent_anchors=true
+openxr/extensions/spatial_entity/enable_builtin_anchor_detection=true
+openxr/extensions/spatial_entity/enable_plane_tracking=true
+openxr/extensions/spatial_entity/enable_builtin_plane_detection=true
+openxr/extensions/spatial_entity/enable_marker_tracking=true
+openxr/extensions/spatial_entity/enable_builtin_marker_tracking=true
+openxr/extensions/eye_gaze_interaction=true
+shaders/enabled=true
