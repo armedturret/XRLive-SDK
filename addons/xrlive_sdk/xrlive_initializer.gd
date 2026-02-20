@@ -4,8 +4,11 @@ class_name XRLiveInitializer
 
 @export var levels: Array[String]
 @export var default_scene_idx: int
+@export var xr_origin: XROrigin3D
 
 var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 
 func _ready() -> void:
-	XRLiveGlobal.init.call_deferred(levels, default_scene_idx)
+	XRLiveGlobal.init.call_deferred(levels,
+		default_scene_idx,
+		xr_origin)

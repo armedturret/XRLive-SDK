@@ -6,15 +6,20 @@ var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 func _enable_plugin() -> void:
 	if not Engine.has_singleton(_constants.XRLIVE_AUTOLOAD):
 		add_autoload_singleton(_constants.XRLIVE_AUTOLOAD, "res://addons/xrlive_sdk/xrlive_global.gd")
+	if not Engine.has_singleton(_constants.XRLIVE_SM_NAME):
+		add_autoload_singleton(_constants.XRLIVE_SM_NAME, "res://addons/xrlive_sdk/xrlive_sem.gd")
 
 
 func _disable_plugin() -> void:
 	if Engine.has_singleton(_constants.XRLIVE_AUTOLOAD):
 		remove_autoload_singleton(_constants.XRLIVE_AUTOLOAD)
+	if Engine.has_singleton(_constants.XRLIVE_SM_NAME):
+		remove_autoload_singleton(_constants.XRLIVE_SM_NAME)
 
 
 func _enter_tree() -> void:
 	add_autoload_singleton(_constants.XRLIVE_AUTOLOAD, "res://addons/xrlive_sdk/xrlive_global.gd")
+	add_autoload_singleton(_constants.XRLIVE_SM_NAME, "res://addons/xrlive_sdk/xrlive_sem.gd")
 
 
 func _exit_tree() -> void:

@@ -11,10 +11,11 @@ signal server_initialized
 var settings: XRLiveSettings
 var xr_interface: XRInterface
 var is_server: bool
+var xr_origin: XROrigin3D
 
 var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 
-var _level_root: Node
+var _level_root: Node3D
 var _levels: Array[String]
 
 var _input_thread: Thread
@@ -22,11 +23,6 @@ var _input_thread: Thread
 func _ready() -> void:
 	# Should NOT be able to pause a network manager
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
-	# These callbacks are only ever called on client
-	multiplayer.server_disconnected.connect(_on_disconnected_from_server)
-	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	multiplayer.connection_failed.connect(_on_connection_failure)
 
 	settings = XRLiveSettings.new()
 	settings.port = _constants.XRLIVE_DEFAULT_PORT
@@ -44,11 +40,20 @@ func _ready() -> void:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 			get_viewport().use_xr = true
+			if not OpenXRSpatialEntityExtension.supports_capability(OpenXRSpatialEntityExtension.CAPABILITY_MARKER_TRACKING_QR_CODE):
+				push_error("This device does not support qr code tracking")
 		else:
 			print("OpenXR not initialized, please check if your headset is connected")
 
 
 func _enter_tree() -> void:
+	# these callbacks are only ever called on the client
+	multiplayer.server_disconnected.connect(_on_disconnected_from_server)
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.connection_failed.connect(_on_connection_failure)
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
 	if is_server:
 		print("Type 'quit' to quit!")
 		_input_thread = Thread.new()
@@ -56,30 +61,80 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	multiplayer.server_disconnected.disconnect(_on_disconnected_from_server)
+	multiplayer.connected_to_server.disconnect(_on_connected_to_server)
+	multiplayer.connection_failed.disconnect(_on_connection_failure)
+	multiplayer.peer_connected.disconnect(_on_peer_connected)
+	multiplayer.peer_disconnected.disconnect(_on_peer_disconnected)
+
 	if _input_thread:
 		_input_thread.wait_to_finish()
 
 
+# CLIENT ONLY
 func _on_disconnected_from_server() -> void:
+	print("Disconnected from server!")
 	disconnected_from_server.emit()
 
+	for c: Node in _level_root.get_children():
+		_level_root.remove_child(c)
+		c.queue_free()
 
+	# retry connecting
+	if settings.address != "":
+		start_client(settings.address, settings.port)
+
+
+# CLIENT ONLY
 func _on_connected_to_server() -> void:
 	print("Connected to server!")
 	connected_to_server.emit()
 
 
+# CLIENT ONLY
 func _on_connection_failure() -> void:
 	failed_to_connect.emit("Failed to establish connection.")
 
+	# retry connection
+	if settings.address != "":
+		start_client(settings.address, settings.port)
+
+
+# CLIENT + SERVER
+func _on_peer_connected(id: int) -> void:
+	if multiplayer.is_server():
+		print("Client peer connected: ", id)
+	else:
+		print("Other peer connected: ", id)
+
+
+# CLIENT + SERVER
+func _on_peer_disconnected(id: int) -> void:
+	if multiplayer.is_server():
+		print("Client peer disconnected: ", id)
+	else:
+		print("Other peer disconnected: ", id)
+
 
 # Init with the list of levels
-func init(levels: Array[String], default_scene_index: int) -> void:
+func init(levels: Array[String],
+		default_scene_index: int,
+		xr_origin: XROrigin3D) -> void:
 	if _level_root != null:
 		push_error("Can only have one XRLiveInitializer")
 		return
 
-	_level_root = Node.new()
+	if xr_origin == null:
+		push_error("Need to set xr_origin in XRLiveInitializer")
+		return
+
+	if len(levels) == 0:
+		push_error("Must add at least one scene to XRLiveInitializer")
+		return
+
+	# Setup tree
+	self.xr_origin = xr_origin
+	_level_root = Node3D.new()
 	_level_root.name = _constants.XRLIVE_LEVEL_ROOT_NAME
 	get_tree().root.add_child(_level_root)
 	var level_spawner := MultiplayerSpawner.new()

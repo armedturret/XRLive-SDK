@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bcphiw0j0owdv"]
+
+[ext_resource type="Script" uid="uid://bq0hs0e31d7pi" path="res://addons/xrlive_sdk/xrlive_qr_root.gd" id="1_su3qe"]
+[ext_resource type="ArrayMesh" uid="uid://brtj24pcxs3d8" path="res://newell_teaset/teapot.obj" id="2_su3qe"]
+[ext_resource type="Script" uid="uid://jok27ybmc5gv" path="res://scripts/test_teapot_spin.gd" id="2_y2a3s"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y2a3s"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="OverCoffee" type="Node3D" unique_id=1169728113]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_su3qe")
+root_qr_text = "0"
+forward_qr_text = "1"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=543252504]
+transform = Transform3D(0.9979893, 0.0003606325, 0.06338174, -0.060852464, -0.27427232, 0.95972484, 0.017729962, -0.96165204, -0.2736989, 0, 2.2665703, 0.059505463)
+
+[node name="TeapotMesh" type="MeshInstance3D" parent="." unique_id=1565172076]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.012199976, 0, 0.059000015)
+mesh = ExtResource("2_su3qe")
+script = ExtResource("2_y2a3s")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="TeapotMesh" unique_id=959365951]
+replication_config = SubResource("SceneReplicationConfig_y2a3s")
