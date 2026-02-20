@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dh74olmenlf6j"]
+
+[ext_resource type="Script" uid="uid://bn0f3uwv3aotq" path="res://addons/xrlive_sdk/xrlive_initializer.gd" id="2_u7rsi"]
+
+[node name="MultiplayerTest" type="Node" unique_id=1371119805]
+process_mode = 3
+
+[node name="XRLiveInitializer" type="Node" parent="." unique_id=425647733 node_paths=PackedStringArray("xr_origin")]
+script = ExtResource("2_u7rsi")
+levels = Array[String](["res://scenes/over_coffee.tscn"])
+xr_origin = NodePath("../XROrigin3D")
+metadata/_custom_type_script = "uid://bn0f3uwv3aotq"
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=1068615395]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1206841316]

@@ -25,6 +25,7 @@ config/icon="uid://duchrxdl4jym0"
 [autoload]
 
 XRLiveGlobal="*uid://qatviv0drby2"
+XRLiveSpatialEntitiesManager="*uid://df3310chk6wxc"
 
 [debug]
 
@@ -42,20 +43,25 @@ enabled=PackedStringArray("res://addons/xrlive_sdk/plugin.cfg")
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=1
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+viewport/transparent_background=true
+vrs/mode=2
 
 [xr]
 
 openxr/enabled=true
 openxr/environment_blend_mode=2
+openxr/foveation_level=3
+openxr/foveation_dynamic=true
 openxr/extensions/hand_tracking=true
 openxr/extensions/hand_interaction_profile=true
 openxr/extensions/spatial_entity/enabled=true
-openxr/extensions/spatial_entity/enable_spatial_anchors=true
-openxr/extensions/spatial_entity/enable_persistent_anchors=true
-openxr/extensions/spatial_entity/enable_builtin_anchor_detection=true
-openxr/extensions/spatial_entity/enable_plane_tracking=true
-openxr/extensions/spatial_entity/enable_builtin_plane_detection=true
 openxr/extensions/spatial_entity/enable_marker_tracking=true
 openxr/extensions/spatial_entity/enable_builtin_marker_tracking=true
 openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
+openxr/extensions/meta/passthrough=true
+openxr/extensions/meta/anchor_api=true
+openxr/extensions/meta/anchor_sharing=true
+openxr/extensions/meta/color_space/starting_color_space=3
