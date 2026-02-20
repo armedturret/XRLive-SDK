@@ -9,6 +9,8 @@ signal failed_to_connect(reason: String)
 signal server_initialized
 
 var settings: XRLiveSettings
+var xr_interface: XRInterface
+var is_server: bool
 
 var _constants = preload("res://addons/xrlive_sdk/xrlive_constants.gd")
 
@@ -31,9 +33,23 @@ func _ready() -> void:
 	_parse_launch_file()
 	_parse_launch_arguments()
 
+	# Should we launch in AR?
+	is_server = DisplayServer.get_name() == "headless"
+	if !is_server:
+		xr_interface = XRServer.find_interface("OpenXR")
+		if xr_interface and xr_interface.is_initialized():
+			print("OpenXR initialized successfully")
+
+			# Turn off v-sync!
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+			get_viewport().use_xr = true
+		else:
+			print("OpenXR not initialized, please check if your headset is connected")
+
 
 func _enter_tree() -> void:
-	if DisplayServer.get_name() == "headless":
+	if is_server:
 		print("Type 'quit' to quit!")
 		_input_thread = Thread.new()
 		_input_thread.start(_async_read_input)
@@ -77,7 +93,7 @@ func init(levels: Array[String], default_scene_index: int) -> void:
 	_levels = levels
 
 	# Start server, or, if addresss specified, join immediately
-	if DisplayServer.get_name() == "headless":
+	if is_server:
 		start_server(default_scene_index)
 	elif settings.address != "":
 		start_client(settings.address, settings.port)
@@ -204,6 +220,8 @@ func _async_read_input() -> void:
 			"stats":
 				print("Uptime (ms): %s" %
 					Time.get_ticks_msec())
+			"":
+				pass
 			_:
 				print("String \'%s\' unrecognized command" % input)
 	get_tree().quit()
