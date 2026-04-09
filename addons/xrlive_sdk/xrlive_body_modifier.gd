@@ -2,7 +2,17 @@ extends SkeletonModifier3D
 
 class_name XRLiveBodyModifier
 
-@export var player := 1
+@export
+var xr_body_modifier: XRBodyModifier3D:
+	set(value):
+		xr_body_modifier = value
+		update_configuration_warnings()
+
+var player : int = 1:
+	set(value):
+		player = value
+		if xr_body_modifier:
+			xr_body_modifier.active = multiplayer.get_unique_id() == value
 
 var _bone_pose_positions : PackedVector3Array
 var _bone_pose_rotations : PackedVector4Array
@@ -23,10 +33,10 @@ func _process_modification_with_delta(delta: float) -> void:
 
 		# send updated position to server
 		rpc_id(1,
-		_update_bones_server.get_method(),
-		 _bone_pose_positions,
-		_bone_pose_rotations,
-		Time.get_ticks_msec())
+			_update_bones_server.get_method(),
+			 _bone_pose_positions,
+			_bone_pose_rotations,
+			Time.get_ticks_msec())
 	else:
 		# any of the other clients should restore bone positions
 		for i in range(skeleton.get_bone_count()):
@@ -41,6 +51,7 @@ func _skeleton_changed(old_skeleton: Skeleton3D, new_skeleton: Skeleton3D) -> vo
 	for i in range(new_skeleton.get_bone_count()):
 		_bone_pose_positions[i] = new_skeleton.get_bone_pose_position(i)
 		_bone_pose_rotations[i] = _quat_to_vec4(new_skeleton.get_bone_pose_rotation(i))
+
 
 func _vec4_to_quat(vec4: Vector4) -> Quaternion:
 	return Quaternion(vec4.x, vec4.y, vec4.z, vec4.w)

@@ -97,7 +97,9 @@ bones/61/rotation = Quaternion(-2.8421706e-14, 1, 2.7939673e-09, -1.1102229e-15)
 bones/62/rotation = Quaternion(-9.420556e-15, 0.70710677, -0.70710677, -9.420556e-15)
 bones/63/rotation = Quaternion(3.0145777e-14, 1, 2.9802326e-08, 7.034015e-14)
 
-[node name="XRLiveBodyModifier" type="SkeletonModifier3D" parent="DancingModel/Skeleton" index="2" unique_id=1877707689]
+[node name="XRBodyModifier3D" type="XRBodyModifier3D" parent="DancingModel/Skeleton" index="2" unique_id=1785841331]
+
+[node name="XRLiveBodyModifier" type="SkeletonModifier3D" parent="DancingModel/Skeleton" index="3" unique_id=1877707689 node_paths=PackedStringArray("xr_body_modifier")]
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
@@ -115,6 +117,7 @@ visibility_parent = NodePath("")
 active = true
 influence = 1.0
 script = ExtResource("5_v8d8g")
+xr_body_modifier = NodePath("../XRBodyModifier3D")
 metadata/_custom_type_script = "uid://ct3xulj3x07e4"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="DancingModel/Skeleton/XRLiveBodyModifier" unique_id=1131496655]
