@@ -20,7 +20,7 @@ func _on_peer_connected(id: int) -> void:
 	# we want to run this on a client to simulate movement on their end
 	if multiplayer.is_server() && client_playing_id == 1:
 		client_playing_id = id
-		rpc_id(id, "_play_anim")
+		rpc_id(id, _play_anim.get_method())
 		xrlive_body_modifier.player = client_playing_id
 
 

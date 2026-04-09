@@ -97,7 +97,23 @@ bones/61/rotation = Quaternion(-2.8421706e-14, 1, 2.7939673e-09, -1.1102229e-15)
 bones/62/rotation = Quaternion(-9.420556e-15, 0.70710677, -0.70710677, -9.420556e-15)
 bones/63/rotation = Quaternion(3.0145777e-14, 1, 2.9802326e-08, 7.034015e-14)
 
-[node name="XRLiveBodyModifier" type="XRBodyModifier3D" parent="DancingModel/Skeleton" index="2" unique_id=1805601497]
+[node name="XRLiveBodyModifier" type="SkeletonModifier3D" parent="DancingModel/Skeleton" index="2" unique_id=1877707689]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
 script = ExtResource("5_v8d8g")
 metadata/_custom_type_script = "uid://ct3xulj3x07e4"
 
