@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bq0hs0e31d7pi" path="res://addons/xrlive_sdk/xrlive_qr_root.gd" id="1_su3qe"]
 [ext_resource type="ArrayMesh" uid="uid://brtj24pcxs3d8" path="res://newell_teaset/teapot.obj" id="2_su3qe"]
 [ext_resource type="Script" uid="uid://jok27ybmc5gv" path="res://scripts/test_teapot_spin.gd" id="2_y2a3s"]
+[ext_resource type="PackedScene" uid="uid://s7lwr8d5k5d2" path="res://assets/models/dancing_model.tscn" id="4_terqe"]
+[ext_resource type="Script" uid="uid://bm1nc50fa6d01" path="res://scripts/test_play_anim.gd" id="5_ntj5n"]
+[ext_resource type="Script" uid="uid://ct3xulj3x07e4" path="res://addons/xrlive_sdk/xrlive_body_modifier.gd" id="5_v8d8g"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y2a3s"]
 properties/0/path = NodePath(".:position")
@@ -11,6 +14,11 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ntj5n"]
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="OverCoffee" type="Node3D" unique_id=1169728113]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -28,3 +36,72 @@ script = ExtResource("2_y2a3s")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="TeapotMesh" unique_id=959365951]
 replication_config = SubResource("SceneReplicationConfig_y2a3s")
+
+[node name="DancingModel" parent="." unique_id=820549015 node_paths=PackedStringArray("anim_player", "xrlive_body_modifier") instance=ExtResource("4_terqe")]
+script = ExtResource("5_ntj5n")
+anim_player = NodePath("AnimationPlayer")
+xrlive_body_modifier = NodePath("Skeleton/XRLiveBodyModifier")
+
+[node name="Skeleton" parent="DancingModel" index="0" unique_id=1904839667]
+bones/0/position = Vector3(-7.727291e-08, 1.0427487, 0.015543159)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/1/rotation = Quaternion(-1.071021e-08, 8.380437e-17, -1.29754605e-14, 1)
+bones/2/rotation = Quaternion(0, 0, 0, 1)
+bones/3/rotation = Quaternion(-7.4505815e-09, 0, -2.8407835e-14, 1)
+bones/4/rotation = Quaternion(0, 0, 0, 1)
+bones/5/rotation = Quaternion(0, 0, 0, 1)
+bones/7/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
+bones/8/rotation = Quaternion(1.7881398e-07, 1, 0, 0)
+bones/9/rotation = Quaternion(0, 0.70710677, -2.1073424e-08, 0.70710677)
+bones/10/rotation = Quaternion(-2.1073376e-08, -0.70710677, -2.1073475e-08, 0.70710677)
+bones/11/rotation = Quaternion(-0.21418683, -0.6738873, -0.21418692, 0.6738873)
+bones/12/rotation = Quaternion(0, 4.470349e-08, 6.6613403e-16, 1)
+bones/13/rotation = Quaternion(0, -2.9802326e-08, -5.960465e-08, 1)
+bones/15/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, -1.7881393e-07, 1)
+bones/16/rotation = Quaternion(-2.9802326e-08, 2.9802326e-08, -2.9802326e-08, 1)
+bones/17/rotation = Quaternion(-2.9802322e-08, -5.9604645e-08, 1.4901161e-08, 1)
+bones/19/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, -1.7881393e-07, 1)
+bones/20/rotation = Quaternion(0, 0, -5.9604645e-08, 1)
+bones/21/rotation = Quaternion(0, 0, 5.9604645e-08, 1)
+bones/23/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, -1.7881393e-07, 1)
+bones/24/rotation = Quaternion(-1.4901161e-08, -4.4703484e-08, 1.4901161e-08, 1)
+bones/25/rotation = Quaternion(0, -4.470349e-08, -4.470349e-08, 1)
+bones/27/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, -1.7881393e-07, 1)
+bones/28/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, -2.9802322e-08, 1)
+bones/29/rotation = Quaternion(1.4901161e-08, 1.4901161e-08, -1.4901161e-08, 1)
+bones/31/rotation = Quaternion(0.5, 0.5, 0.5, -0.5)
+bones/32/rotation = Quaternion(0, 1, 0, 5.9604645e-08)
+bones/33/rotation = Quaternion(4.2146848e-08, -0.70710677, 4.2146848e-08, 0.70710677)
+bones/34/rotation = Quaternion(2.8261668e-14, 0.70710677, 2.8261668e-14, 0.70710677)
+bones/35/rotation = Quaternion(-0.21418676, 0.67388725, 0.21418673, 0.67388725)
+bones/36/rotation = Quaternion(-2.9802326e-08, -1.4901163e-08, -2.2204466e-16, 1)
+bones/37/rotation = Quaternion(1.4901163e-08, -1.4901163e-08, -5.960465e-08, 1)
+bones/39/rotation = Quaternion(-2.9802322e-08, 2.9802322e-08, 2.9802322e-08, 1)
+bones/40/rotation = Quaternion(1.4901161e-08, 0, 0, 1)
+bones/41/rotation = Quaternion(2.9802319e-08, 2.9802319e-08, -2.9802319e-08, 1)
+bones/43/rotation = Quaternion(-2.9802322e-08, 2.9802322e-08, 2.9802322e-08, 1)
+bones/44/rotation = Quaternion(0, 0, 0, 1)
+bones/45/rotation = Quaternion(1.4901161e-08, -1.4901161e-08, 0, 1)
+bones/47/rotation = Quaternion(-2.9802322e-08, 2.9802322e-08, 2.9802322e-08, 1)
+bones/48/rotation = Quaternion(-4.4703484e-08, 5.9604645e-08, 1.4901161e-08, 1)
+bones/49/rotation = Quaternion(-4.4703484e-08, 5.9604645e-08, 1.4901161e-08, 1)
+bones/51/rotation = Quaternion(-4.4703484e-08, 5.9604645e-08, 1.4901161e-08, 1)
+bones/52/rotation = Quaternion(-2.9802319e-08, -2.9802319e-08, 8.940695e-08, 1)
+bones/53/rotation = Quaternion(2.9802322e-08, 2.9802322e-08, 2.9802322e-08, 1)
+bones/55/rotation = Quaternion(2.9653724e-16, 0, 1, -2.2846969e-14)
+bones/56/rotation = Quaternion(0, 1, -1.1641533e-09, -4.4408926e-16)
+bones/57/rotation = Quaternion(-4.1136426e-14, 0.70710677, -0.70710677, 3.9252313e-14)
+bones/58/rotation = Quaternion(2.0097183e-14, 1, 0, -4.019437e-14)
+bones/60/rotation = Quaternion(4.765542e-16, 9.313227e-10, 1, 5.0251233e-15)
+bones/61/rotation = Quaternion(-2.8421706e-14, 1, 2.7939673e-09, -1.1102229e-15)
+bones/62/rotation = Quaternion(-9.420556e-15, 0.70710677, -0.70710677, -9.420556e-15)
+bones/63/rotation = Quaternion(3.0145777e-14, 1, 2.9802326e-08, 7.034015e-14)
+
+[node name="XRLiveBodyModifier" type="XRBodyModifier3D" parent="DancingModel/Skeleton" index="2" unique_id=1805601497]
+script = ExtResource("5_v8d8g")
+metadata/_custom_type_script = "uid://ct3xulj3x07e4"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="DancingModel/Skeleton/XRLiveBodyModifier" unique_id=1131496655]
+replication_config = SubResource("SceneReplicationConfig_ntj5n")
+
+[editable path="DancingModel"]
