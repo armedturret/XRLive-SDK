@@ -3,9 +3,8 @@
 [ext_resource type="Script" uid="uid://bq0hs0e31d7pi" path="res://addons/xrlive_sdk/xrlive_qr_root.gd" id="1_su3qe"]
 [ext_resource type="ArrayMesh" uid="uid://brtj24pcxs3d8" path="res://newell_teaset/teapot.obj" id="2_su3qe"]
 [ext_resource type="Script" uid="uid://jok27ybmc5gv" path="res://scripts/test_teapot_spin.gd" id="2_y2a3s"]
-[ext_resource type="PackedScene" uid="uid://s7lwr8d5k5d2" path="res://assets/models/dancing_model.tscn" id="4_terqe"]
-[ext_resource type="Script" uid="uid://bm1nc50fa6d01" path="res://scripts/test_play_anim.gd" id="5_ntj5n"]
-[ext_resource type="Script" uid="uid://ct3xulj3x07e4" path="res://addons/xrlive_sdk/xrlive_body_modifier.gd" id="5_v8d8g"]
+[ext_resource type="ArrayMesh" uid="uid://dhnels2v7pnqx" path="res://newell_teaset/teacup.obj" id="4_bcpua"]
+[ext_resource type="Script" uid="uid://m1ijgq23v5pr" path="res://addons/xrlive_sdk/xrlive_actor_spawner.gd" id="8_vwsye"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y2a3s"]
 properties/0/path = NodePath(".:position")
@@ -14,11 +13,6 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 2
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ntj5n"]
-properties/0/path = NodePath(".:player")
-properties/0/spawn = true
-properties/0/replication_mode = 2
 
 [node name="OverCoffee" type="Node3D" unique_id=1169728113]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -33,40 +27,24 @@ transform = Transform3D(0.9979893, 0.0003606325, 0.06338174, -0.060852464, -0.27
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.012199976, 0, 0.059000015)
 mesh = ExtResource("2_su3qe")
 script = ExtResource("2_y2a3s")
+angular_speed_deg = 0.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="TeapotMesh" unique_id=959365951]
 replication_config = SubResource("SceneReplicationConfig_y2a3s")
 
-[node name="DancingModel" parent="." unique_id=820549015 node_paths=PackedStringArray("anim_player", "xrlive_body_modifier") instance=ExtResource("4_terqe")]
-script = ExtResource("5_ntj5n")
-anim_player = NodePath("AnimationPlayer")
-xrlive_body_modifier = NodePath("Skeleton/XRLiveBodyModifier")
+[node name="Teacup" type="MeshInstance3D" parent="TeapotMesh" unique_id=705501330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6807404, 0, -3.7128808)
+mesh = ExtResource("4_bcpua")
 
-[node name="XRBodyModifier3D" type="XRBodyModifier3D" parent="DancingModel/Skeleton" parent_id_path=PackedInt32Array(820549015, 1904839667) index="2" unique_id=1785841331]
-body_tracker = &"/vmc/body_tracker"
+[node name="Teacup2" type="MeshInstance3D" parent="TeapotMesh" unique_id=528858910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5387018, -0.005840063, -3.7128804)
+mesh = ExtResource("4_bcpua")
 
-[node name="XRLiveBodyModifier" type="SkeletonModifier3D" parent="DancingModel/Skeleton" parent_id_path=PackedInt32Array(820549015, 1904839667) index="3" unique_id=1877707689 node_paths=PackedStringArray("xr_body_modifier")]
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-rotation_edit_mode = 0
-rotation_order = 2
-top_level = false
-visible = true
-visibility_parent = NodePath("")
-active = true
-influence = 1.0
-script = ExtResource("5_v8d8g")
-xr_body_modifier = NodePath("../XRBodyModifier3D")
-metadata/_custom_type_script = "uid://ct3xulj3x07e4"
+[node name="ActorRoot" type="Node3D" parent="." unique_id=1038037216]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="DancingModel/Skeleton/XRLiveBodyModifier" unique_id=1131496655]
-replication_config = SubResource("SceneReplicationConfig_ntj5n")
-
-[editable path="DancingModel"]
+[node name="ActorSpawner" type="MultiplayerSpawner" parent="." unique_id=1806388780]
+_spawnable_scenes = PackedStringArray("uid://s7lwr8d5k5d2")
+spawn_path = NodePath("../ActorRoot")
+script = ExtResource("8_vwsye")
+actor_scene = "res://assets/models/actor.tscn"

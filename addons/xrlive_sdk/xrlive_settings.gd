@@ -7,3 +7,4 @@ class_name XRLiveSettings
 
 # Client only settings
 @export var address: String = ""
+@export var is_actor: bool = false

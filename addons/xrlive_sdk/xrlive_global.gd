@@ -246,6 +246,7 @@ func _parse_args(args: PackedStringArray) -> void:
 	# options:
 	# --port [PORT] - set client/server port
 	# --address [ADDRESS] - connects client to address (if not headless)
+	# --actor - spawns a controllable model for this client
 	var should_quit: bool = false
 
 	for i : int in range(len(args)):
@@ -267,6 +268,8 @@ func _parse_args(args: PackedStringArray) -> void:
 				continue
 			settings.address = args[i + 1]
 			i += 1
+		elif args[i] == "--actor":
+			settings.is_actor = true
 
 	if should_quit:
 		get_tree().quit(1)

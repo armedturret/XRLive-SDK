@@ -1,8 +1,17 @@
 [gd_scene format=3 uid="uid://s7lwr8d5k5d2"]
 
 [ext_resource type="PackedScene" uid="uid://g0wpgnnnxru0" path="res://assets/models/DancingModel.fbx" id="1_j7piy"]
+[ext_resource type="Script" uid="uid://cfxtqipw7wnuv" path="res://addons/xrlive_sdk/xrlive_actor.gd" id="2_8vxlg"]
+[ext_resource type="Script" uid="uid://ct3xulj3x07e4" path="res://addons/xrlive_sdk/xrlive_body_modifier.gd" id="2_q386g"]
 
-[node name="DancingModel" unique_id=820549015 instance=ExtResource("1_j7piy")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8vxlg"]
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Actor" unique_id=820549015 node_paths=PackedStringArray("xrlive_body_mod") instance=ExtResource("1_j7piy")]
+script = ExtResource("2_8vxlg")
+xrlive_body_mod = NodePath("Skeleton/XRLiveBodyModifier")
 
 [node name="Skeleton" parent="." index="0" unique_id=1904839667]
 bones/0/position = Vector3(-7.727291e-08, 1.0427487, 0.015543159)
@@ -51,3 +60,30 @@ bones/60/rotation = Quaternion(4.765542e-16, 9.313227e-10, 1, 5.0251233e-15)
 bones/61/rotation = Quaternion(-2.8421706e-14, 1, 2.7939673e-09, -1.1102229e-15)
 bones/62/rotation = Quaternion(-9.420556e-15, 0.70710677, -0.70710677, -9.420556e-15)
 bones/63/rotation = Quaternion(3.0145777e-14, 1, 2.9802326e-08, 7.034015e-14)
+
+[node name="XRBodyModifier3D" type="XRBodyModifier3D" parent="Skeleton" index="2" unique_id=2130781765]
+body_tracker = &"/vmc/body_tracker"
+
+[node name="XRLiveBodyModifier" type="SkeletonModifier3D" parent="Skeleton" index="3" unique_id=24202338 node_paths=PackedStringArray("xr_body_modifier")]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("2_q386g")
+xr_body_modifier = NodePath("../XRBodyModifier3D")
+metadata/_custom_type_script = "uid://ct3xulj3x07e4"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Skeleton/XRLiveBodyModifier" index="0" unique_id=1049197060]
+replication_config = SubResource("SceneReplicationConfig_8vxlg")
