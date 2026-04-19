@@ -6,7 +6,13 @@ signal disconnected_from_server
 signal connection_started
 signal connected_to_server
 signal failed_to_connect(reason: String)
+
+# This is only called from a server (duh)
 signal server_initialized
+
+# Called on both client and server
+signal other_peer_connected(id: int)
+signal other_peer_disconnected(id: int)
 
 var settings: XRLiveSettings
 var xr_interface: XRInterface
@@ -106,6 +112,7 @@ func _on_peer_connected(id: int) -> void:
 		print("Client peer connected: ", id)
 	else:
 		print("Other peer connected: ", id)
+	other_peer_connected.emit(id)
 
 
 # CLIENT + SERVER
@@ -114,6 +121,7 @@ func _on_peer_disconnected(id: int) -> void:
 		print("Client peer disconnected: ", id)
 	else:
 		print("Other peer disconnected: ", id)
+	other_peer_disconnected.emit(id)
 
 
 # Init with the list of levels
@@ -238,6 +246,7 @@ func _parse_args(args: PackedStringArray) -> void:
 	# options:
 	# --port [PORT] - set client/server port
 	# --address [ADDRESS] - connects client to address (if not headless)
+	# --actor - spawns a controllable model for this client
 	var should_quit: bool = false
 
 	for i : int in range(len(args)):
@@ -259,6 +268,8 @@ func _parse_args(args: PackedStringArray) -> void:
 				continue
 			settings.address = args[i + 1]
 			i += 1
+		elif args[i] == "--actor":
+			settings.is_actor = true
 
 	if should_quit:
 		get_tree().quit(1)

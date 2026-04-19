@@ -26,6 +26,7 @@ config/icon="uid://duchrxdl4jym0"
 
 XRLiveGlobal="*uid://qatviv0drby2"
 XRLiveSpatialEntitiesManager="*uid://df3310chk6wxc"
+VmcPlugin="*uid://b25lunw0fqxfc"
 
 [debug]
 
@@ -33,7 +34,7 @@ gdscript/warnings/untyped_declaration=2
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/xrlive_sdk/plugin.cfg")
+enabled=PackedStringArray("res://addons/Godot-MToon-Shader/plugin.cfg", "res://addons/godot_vmc_tracker/plugin.cfg", "res://addons/vrm/plugin.cfg", "res://addons/xrlive_sdk/plugin.cfg")
 
 [physics]
 
